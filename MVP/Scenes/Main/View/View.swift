@@ -34,6 +34,7 @@ class View: UIView {
 
     override func layoutSubviews() {
         super.layoutSubviews()
+
         backgroundColor = .systemBackground
         configView()
         addConstraints()
