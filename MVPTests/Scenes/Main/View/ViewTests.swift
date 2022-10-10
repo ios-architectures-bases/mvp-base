@@ -5,9 +5,10 @@ import XCTest
 final class ViewTests: XCTestCase {
     
     var sut: View!
-    
+
     override func setUp() {
         sut = View()
+        sut.layoutSubviews()
     }
     
     override func tearDown() {
@@ -15,34 +16,52 @@ final class ViewTests: XCTestCase {
     }
     
     func test_show_whenLoadingState_shouldShowLoadingView() {
-        let loadingView = getSubView(by: "buttonTryAgain")
+        sut.show(state: .loading)
+
+        let loadingView = sut.getSubView(by: "viewLoading")
         
         let capturedValue = loadingView?.isHidden
         let expectedValue: Bool? = false
         
-        sut.show(state: .loading)
         XCTAssertEqual(capturedValue, expectedValue)
     }
 
     func test_show_whenErrorState_shouldShowErrorView() {
-        let errorButton = getSubView(by: "buttonTryAgain")
+        sut.show(state: .error)
+
+        let errorButton = sut.getSubView(by: "buttonTryAgain")
         
         let capturedValue = errorButton?.isHidden
         let expectedValue: Bool? = false
         
-        sut.show(state: .error)
         XCTAssertEqual(capturedValue, expectedValue)
     }
+
+    func test_show_whenReadyState_shouldShowTitleLabelWithCorrectValue() {
+        sut.show(state: .ready("teste"))
     
-    func getSubView(by identifier: String) -> UIView? {
+        let titleLabel = sut.getSubView(by: "labelTitle") as? UILabel
+        
+        let capturedText = titleLabel?.text
+        let capturedValue = titleLabel?.isHidden
+        let expectedValue: Bool? = false
 
-        for subView in sut.subviews {
-            if subView.accessibilityIdentifier == identifier {
-                return subView
-            }
+        XCTAssertEqual(capturedValue, expectedValue)
+        XCTAssertEqual(capturedText, "teste")
+    }
+
+    func test_didTapTryAgain_whenTapTryAgainButton() {
+        
+        var didTapTryAgainButtonCallCount = 0
+
+        sut.didTapTryAgainButton = {
+            didTapTryAgainButtonCallCount += 1
         }
+    
+        let errorButton = sut.getSubView(by: "buttonTryAgain") as? UIButton
+        errorButton?.sendActions(for: .touchUpInside)
 
-        return nil
+        XCTAssertEqual(didTapTryAgainButtonCallCount, 1)
     }
 }
 
