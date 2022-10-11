@@ -1,6 +1,6 @@
 import Foundation
 
-enum ViewState {
+enum ViewState: Equatable {
     case ready(String)
     case error
     case loading

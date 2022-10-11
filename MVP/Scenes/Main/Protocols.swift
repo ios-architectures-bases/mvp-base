@@ -5,6 +5,7 @@ protocol PresenterType {
     var viewController: ViewControllerType? { get set }
 
     func loadData()
+    func tryAgain(status: Bool)
 }
 
 protocol ViewControllerType: AnyObject {
@@ -12,7 +13,6 @@ protocol ViewControllerType: AnyObject {
 }
 
 protocol ViewType where Self: UIView {
-    var didTapButton: (() -> Void)? { get set }
     var didTapTryAgainButton: (() -> Void)? { get set }
     
     func show(state: ViewState)

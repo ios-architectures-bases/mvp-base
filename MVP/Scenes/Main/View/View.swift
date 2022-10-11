@@ -1,7 +1,6 @@
 import UIKit
 
 class View: UIView {
-    var didTapButton: (() -> Void)?
     var didTapTryAgainButton: (() -> Void)?
     
     let title: UILabel = {
