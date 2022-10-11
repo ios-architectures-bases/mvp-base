@@ -14,7 +14,11 @@ final class ViewTests: XCTestCase {
     override func tearDown() {
         sut = nil
     }
-    
+
+    func test_init_shouldBeAKinfOfViewType() {
+        XCTAssertTrue(sut is ViewType)
+    }
+
     func test_show_whenLoadingState_shouldShowLoadingView() {
         sut.show(state: .loading)
 
