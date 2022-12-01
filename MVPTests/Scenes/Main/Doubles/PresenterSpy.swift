@@ -11,8 +11,8 @@ class PresenterSpy: PresenterType {
         loadDataCallCount += 1
     }
     
-    private(set) var tryAgainArgs = [Bool]()
-    func tryAgain(status: Bool) {
-        tryAgainArgs.append(status)
+    private(set) var tryAgainCallcount = 0
+    func tryAgain() {
+        tryAgainCallcount += 1
     }
 }

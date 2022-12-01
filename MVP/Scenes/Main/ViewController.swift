@@ -36,6 +36,8 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: ViewControllerType {
+
+    @MainActor
     func show(state: ViewState) {
         contentView.show(state: state)
     }

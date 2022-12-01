@@ -5,7 +5,7 @@ protocol PresenterType {
     var viewController: ViewControllerType? { get set }
 
     func loadData()
-    func tryAgain(status: Bool)
+    func tryAgain()
 }
 
 protocol ViewControllerType: AnyObject {

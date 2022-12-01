@@ -43,13 +43,13 @@ final class ViewControllerTests: XCTestCase {
         XCTAssertEqual(presenterSpy.loadDataCallCount, 2)
     }
     
-    func test_show_shouldCallViewFunctionShow() {
+    @MainActor func test_show_shouldCallViewFunctionShow() {
         sut.show(state: .loading)
     
         XCTAssertEqual(viewSpy.showArgs.count, 1)
     }
     
-    func test_show_shouldCallViewFunctionShowWithCorectValues() {
+    @MainActor func test_show_shouldCallViewFunctionShowWithCorectValues() {
         sut.show(state: .loading)
     
         XCTAssertEqual(viewSpy.showArgs, [.loading])

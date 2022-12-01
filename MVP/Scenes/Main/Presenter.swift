@@ -3,26 +3,21 @@ import Foundation
 class Presenter {
 
     weak var viewController: ViewControllerType?
+    
+    let network: NetworkType
 
-    private let delayTime: Double
-    private var status: Bool
-    private let queue: DispatchQueueType
-
-    init(delayTime: Double = 2,
-         status: Bool = Bool.random(),
-         queue: DispatchQueueType = DispatchQueue.main) {
-        self.delayTime = delayTime
-        self.status = status
-        self.queue = queue
+    init(network: NetworkType = Network()) {
+        self.network = network
     }
 
-    private func handle() {
-        if status {
-            viewController?.show(state: .ready("Tudo certo por aqui"))
-            return
+    private func handle(result: Result<String, CustomError>) {
+        
+        switch result {
+        case .success(let text):
+            viewController?.show(state: .ready(text))
+        case .failure(_):
+            viewController?.show(state: .error)
         }
-
-        viewController?.show(state: .error)
     }
 }
 
@@ -30,15 +25,13 @@ extension Presenter: PresenterType {
     func loadData() {
 
         viewController?.show(state: .loading)
-
-        queue.async(deadline: .now() + delayTime) { [weak self] in
-            self?.handle()
+        
+        network.fetchStatus { [weak self] result in
+            self?.handle(result: result)
         }
     }
 
-    func tryAgain(status: Bool = Bool.random()) {
-        self.status = status
-
+    func tryAgain() {
         loadData()
     }
 }
